@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 from simulator import Simulator
 from fit_strategy import FirstFit, BestFit, WorstFit, CircularFit
 
@@ -16,7 +16,7 @@ class Menu:
             return None
         return int(choice)
 
-    def build_policy(self, option: int) -> Optional[object]:
+    def build_policy(self, option: int) -> Optional[Union[FirstFit, BestFit, WorstFit, CircularFit]]:
         if option == 1:
             return FirstFit()
         if option == 2:
