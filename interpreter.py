@@ -36,8 +36,4 @@ class RequestParser:
             pid = text[4:-1].strip()
             return Request("OUT", pid, None)
 
-        if text.isdigit():
-            value = int(text)
-            return Request("MEM", None, value)
-
         raise ValueError(f"Linha inválida: {line}")

@@ -1,0 +1,4 @@
+Python >= 3.12
+
+1. Executar o comando: python main.py
+2. Seguir os passos no terminal

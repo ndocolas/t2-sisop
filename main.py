@@ -1,6 +1,6 @@
-from typing import Optional, Union
+from typing import Optional
 from simulator import Simulator
-from fit_strategy import FirstFit, BestFit, WorstFit, CircularFit
+from fit_strategy import FirstFit, BestFit, WorstFit, CircularFit, FitStrategy
 
 
 class Menu:
@@ -16,7 +16,7 @@ class Menu:
             return None
         return int(choice)
 
-    def build_policy(self, option: int) -> Optional[Union[FirstFit, BestFit, WorstFit, CircularFit]]:
+    def build_policy(self, option: int) -> FitStrategy | None:
         if option == 1:
             return FirstFit()
         if option == 2:
@@ -41,13 +41,19 @@ class Menu:
                 print("Opção inválida")
                 continue
 
-            script_path = input("Caminho do arquivo de requisições: ").strip()
-            mem_input = input("Tamanho da memória (ou vazio para ler do arquivo): ").strip()
-            mem_size = int(mem_input) if mem_input else None
+            script_path = input("Nome do arquivo de requisições: ").strip()
+            while not script_path:
+                script_path = input("Informe o nome do arquivo de requisições valido: ").strip()
+            
+            mem_input = input("Tamanho da memória: ").strip()
+            while not mem_input:
+                mem_input = input("Informe uma memoria valida: ").strip()
+                
+            mem_size = int(mem_input)
 
             try:
                 simulator = Simulator(policy)
-                simulator.run(script_path + ".txt", mem_size)
+                simulator.run(script_path, mem_size)
             except Exception as error:
                 print(f"Erro: {error}")
 

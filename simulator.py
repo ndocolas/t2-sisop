@@ -8,29 +8,16 @@ class Simulator:
         self.policy = policy
         self.manager: MemoryManager | None = None
 
-    def run(self, script_path: str, initial_size: int | None) -> None:
+    def run(self, script_path: str, initial_size: int) -> None:
         parser = RequestParser()
         requests = parser.parse_file(script_path)
 
         memory_size = initial_size
-        for request in requests:
-            if request.kind == "MEM":
-                memory_size = request.size
-                break
-
-        if memory_size is None:
-            raise ValueError("Tamanho de memória não informado")
-
-        if not self.is_power_of_two(memory_size):
-            raise ValueError("Tamanho de memória deve ser potência de dois")
 
         self.manager = MemoryManager(memory_size, self.policy)
         self.print_memory_map("Inicial")
 
         for request in requests:
-            if request.kind == "MEM":
-                continue
-
             cmd_text = self.format_command(request)
 
             if request.kind == "IN":
